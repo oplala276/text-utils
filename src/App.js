@@ -2,13 +2,14 @@ import './App.css';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Alert from './components/Alert';
-// import About from './components/About';
+import About from './components/About';
 function App() {
-  const [mode, setMode] = useState('light');
-  const [text, setText] = useState({
-    color: 'black',
-  });
+  const [mode, setMode] = useState('dark');
+  // const [text, setText] = useState({
+  //   color: 'black',
+  // });
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
     setAlert({
@@ -33,11 +34,16 @@ function App() {
 
   return (
     <>
-      <Navbar mode={mode} toggle={toggle} />
-      <Alert alert={alert} />
-      <div className="container my-4">
-        <TextForm mode={mode} />
-      </div>
+      <BrowserRouter>
+        <Navbar mode={mode} toggle={toggle} />
+        <Alert alert={alert} />
+        <div className="container my-4">
+          <Routes>
+            <Route path="/" element={<TextForm mode={mode} showAlert={showAlert} />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </>
   );
 }
